@@ -1,0 +1,224 @@
+import java.io.*;
+class LMS
+{
+String s_fname,s_lname;
+int s_class, rollno,no_of_books,s_no_of_books,issue_date,return_date;
+String b_name[]=new String[100];
+String author_name[]=new String[100];
+String publication[]=new String[100];
+int book_no[]=new int[100];
+public void enter_student()throws Exception
+{
+DataInputStream in=new DataInputStream(System.in);
+System.out.println("Enter the details of student");
+System.out.println("Enter first name");
+s_fname=in.readLine();
+System.out.println("Enter last name");
+s_lname=in.readLine();
+System.out.println("Enter class");
+s_class=Integer.parseInt(in.readLine());
+System.out.println("Enter roll no. ");
+rollno=Integer.parseInt(in.readLine());
+System.out.println("Enter the number of books already issued by student");
+s_no_of_books=Integer.parseInt(in.readLine());
+}
+public void enter_book()throws Exception
+{
+int i;
+DataInputStream in=new DataInputStream(System.in);
+System.out.println("Enter the number of books");
+no_of_books=Integer.parseInt(in.readLine());
+System.out.println("Enter the details of book");
+for(i=0;i<no_of_books;i++)
+{
+System.out.println("Enter name of book");
+b_name[i]=in.readLine();
+System.out.println("Enter author of book");
+author_name[i]=in.readLine();
+System.out.println("Enter publication");
+publication[i]=in.readLine();
+System.out.println("Enter book no. ");
+book_no[i]=Integer.parseInt(in.readLine());
+}
+}
+public void display_student()
+{
+System.out.println(" First name of student is - " +s_fname);
+System.out.println(" Last name of student is - " +s_lname);
+System.out.println("Student is of class - "+s_class);
+System.out.println("Roll number of student is - "+rollno);
+System.out.println("Number of books issued by the student is - "+s_no_of_books);
+}
+public void display_book()
+{
+int i;
+for(i=0;i<no_of_books;i++)
+{
+System.out.println("Name of book is - " +b_name[i]);
+System.out.println("Author of book is - " +author_name[i]);
+System.out.println("Publication of book is - " +publication[i]);
+System.out.println("Book number is - "+book_no[i]);
+}
+}
+public int search(int b)
+{
+int i,f=0;
+for(i=0;i<no_of_books;i++)
+{
+if(book_no[i]==b)
+{
+f=1;
+break;
+}
+}
+if(f==1)
+return(1);
+else
+return(0);
+}
+public void issue()throws Exception
+{
+int a,bn;
+DataInputStream in=new DataInputStream(System.in);
+System.out.println("Enter the book number of the book to be issued");
+bn=Integer.parseInt(in.readLine());
+a=search(bn);
+if(a==1)
+{
+if(s_no_of_books<2)
+{
+System.out.println("Book is present and can be issued");
+System.out.println("Enter the date when the book is getting issued");
+issue_date=Integer.parseInt(in.readLine());
+}
+else
+System.out.println("Student already issued 2 books and can't issue any other book now");
+}
+else
+System.out.println("Book is not present and so can't be issued");
+}
+public void modify_student()throws Exception
+{
+int ch;
+DataInputStream in=new DataInputStream(System.in);
+System.out.println("Enter your choice what detail of student you want to modify");
+System.out.println("1 - Modify first name of student");
+System.out.println("2 - Modify last name of student");
+System.out.println("3 - Modify class in which student is studying");
+System.out.println("4 - Modify roll number of student");
+System.out.println("5 - Modify the number of books issued by student");
+ch=Integer.parseInt(in.readLine());
+if(ch==1)
+{
+System.out.println("Enter modified first name");
+s_fname=in.readLine();
+}
+else if(ch==2)
+{
+System.out.println("Enter modified last name");
+s_lname=in.readLine();
+}
+else if(ch==3)
+{
+System.out.println("Enter the class in which student is studying now");
+s_class=Integer.parseInt(in.readLine());
+}
+else if(ch==4)
+{
+System.out.println("Enter roll number of student ");
+rollno=Integer.parseInt(in.readLine());
+}
+else if(ch==5)
+{
+System.out.println("Enter the number of books already issued by student");
+s_no_of_books=Integer.parseInt(in.readLine());
+}
+}
+public void return_book()throws Exception
+{
+int r_no_of_books,bn,i;
+DataInputStream in=new DataInputStream(System.in);
+System.out.println("Enter the book number of the book to be returned");
+bn=Integer.parseInt(in.readLine());
+System.out.println("Enter the date when the book is being returned");
+return_date=Integer.parseInt(in.readLine());
+System.out.println("Book returned");
+s_no_of_books=s_no_of_books-1;
+}
+public void fine()
+{
+int d,s_fine;
+d=return_date-issue_date;
+if(d<=7)
+s_fine=0;
+else
+s_fine=d-7;  // As the fine is according to Rs.1 per day after 7 days
+System.out.println("Fine to be paid by student is - "+s_fine);
+}
+
+public static void main(String arg[])throws Exception
+{
+int a,b_search;
+LMS obj=new LMS();
+int choice=1;
+DataInputStream in=new DataInputStream(System.in);
+System.out.println("---------Welcome to Samarpit's Library---------");
+
+while(choice!=0)
+{
+System.out.println("Enter the choice as :-");
+System.out.println("0-Exit");
+System.out.println("1- Entering Student's information");
+System.out.println("2- Entering book's details");
+System.out.println("3- Displaying Student's information");
+System.out.println("4- Displaying details of book");
+System.out.println("5- Searching book");
+System.out.println("6- Issuing book");
+System.out.println("7- Modifying student's details");
+System.out.println("8- Returning book");
+System.out.println("9- Checking fine");
+choice=Integer.parseInt(in.readLine());
+switch(choice)
+{
+case 0:
+break;
+case 1:
+obj.enter_student();
+break;
+case 2:
+obj.enter_book();
+break;
+case 3:
+obj.display_student();
+break;
+case 4:
+obj.display_book();
+break;
+case 5:
+System.out.println("Enter the book number of the book which is to be searched");
+b_search=Integer.parseInt(in.readLine());
+a=obj.search(b_search);
+if(a==1)
+System.out.println("Book is present ");
+else
+System.out.println("Book is not present ");
+break;
+case 6:
+obj.issue();
+break;
+case 7:
+obj.modify_student();
+break;
+case 8:
+obj.return_book();
+break;
+case 9:
+obj.fine();
+break;
+default:
+System.out.println("Enter correct choice as per the list above");
+break;
+}
+}
+}
+}
